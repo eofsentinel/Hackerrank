@@ -37,13 +37,20 @@ int main() {
     bestj = n;
     for (int i = 0; i < k; i++) {
         if (rob[i] > rq && cob[i] > cq && abs(rob[i] - cob[i]) == abs(rq - cq)) {
-            if (rob[i] < besti) {
+            if (rob[i] < besti || cob[i] < bestj) {
                 besti = rob[i];
                 bestj = cob[i];
             }
         }
     }
-    totalmoves += besti - rq - 1;
+    if (rq <= cq) {
+        totalmoves += bestj - cq - 1;
+        // cout << "NE :" << bestj - cq - 1 << endl;
+    }
+    else {
+        totalmoves += besti - rq - 1;
+        // cout << "NE :" << besti - rq - 1 << endl;
+    }
     // cout << "NE: " << besti - rq - 1 << endl;
 
     // 3 East
@@ -64,12 +71,21 @@ int main() {
     bestj = n;
     for (int i = 0; i < k; i++) {
         if (rob[i] < rq && cob[i] > cq && (rob[i] + cob[i] == rq + cq)) {
-            if (cob[i] < bestj) {
+            if (cob[i] < bestj || rob[i] > besti) {
                 bestj = cob[i];
+                besti = rob[i];
             }
         }
     }
-    totalmoves += bestj - cq - 1;
+    if (rq + cq >= n) {
+        totalmoves += bestj - cq - 1;
+        // cout << "SE :" << bestj - cq - 1 << endl;
+    }
+    else {
+        totalmoves += rq - besti - 1;
+        // cout << "SE :" << rq - besti - 1 << endl;
+    }
+    // totalmoves += bestj - cq - 1;
     // cout << "SE: " << bestj - cq - 1 << endl;
 
     // 5 South
@@ -91,12 +107,21 @@ int main() {
     bestj = -1;
     for (int i = 0; i < k; i++) {
         if (rob[i] < rq && cob[i] < cq && abs(rob[i] - cob[i]) == abs(rq - cq)) {
-            if (cob[i] > bestj) {
+            if (cob[i] > bestj || rob[i] > besti) {
                 bestj = cob[i];
+                besti = rob[i];
             }
         }
     }
-    totalmoves += cq - bestj - 1;
+    if (rq <= cq) {
+        totalmoves += rq - besti - 1;
+        // cout << "SW :" << rq - besti - 1 << endl;
+    }
+    else {
+        totalmoves += cq - bestj - 1;
+        // cout << "SW :" << cq - bestj - 1 << endl;
+    }
+    // totalmoves += cq - bestj - 1;
     // cout << "SW: " << cq - bestj - 1 << endl;
 
     // 7 West
@@ -117,12 +142,21 @@ int main() {
     bestj = -1;
     for (int i = 0; i < k; i++) {
         if (rob[i] > rq && cob[i] < cq && (rob[i] + cob[i] == rq + cq)) {
-            if (rob[i] < besti) {
+            if (rob[i] < besti || cob[i] > bestj) {
                 besti = rob[i];
+                bestj = cob[i];
             }
         }
     }
-    totalmoves += besti - rq - 1;
+    if (rq + cq < n) {
+        totalmoves += cq - bestj - 1;
+        // cout << "NW :" << cq - bestj - 1 << endl;
+    }
+    else {
+        totalmoves += besti - rq - 1;
+        // cout << "NW :" << besti - rq - 1 << endl;
+    }
+    // totalmoves += besti - rq - 1;
     // cout << "NW: " << besti - rq - 1 << endl;
 
     cout << totalmoves << endl;
